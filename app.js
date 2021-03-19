@@ -51,9 +51,22 @@ app.get('/', async (req,res)=>{
                 if(err)
                 console.log(err);
                 else{
+                  let genreId=[];
                   let genreList= 0||JSON.parse(body).genres; 
-                  let genres=req.headers['genre'];       
-                  res.send(genreList)
+                  let genres=req.headers['genre'];      
+                    res.json({message:"Fetched Data"})
+                  genreList.forEach(element => {
+                      if(element.name===genres)
+                      {
+                          genreId.push(element.id);
+                          console.log(genreId)
+                        //  movielist.results.forEach(movies=>{
+                        //      if(movies.genre_ids.includes(genreId)){
+                        //          console.log(movies)
+                        //      }
+                        //  })
+                      }
+                  });
                 }
             })
         }
