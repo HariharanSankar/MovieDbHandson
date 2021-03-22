@@ -1,5 +1,3 @@
-//Need to add
-
 let options1={
     url:MOVIE_API,
     strictSSL:false,
@@ -24,9 +22,7 @@ app.get('/',CB, async (req,res)=>{
               let content= null ||JSON.parse(body);
             }
         })      
-        let results=data.results;         
-const rating=results.filter(results=>results.popularity>popularityRating)
-res.send(rating.sort())
+      
 }
 )
 
