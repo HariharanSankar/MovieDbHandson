@@ -2,8 +2,15 @@ const express=require('express');
 const router=express.Router();
 const genreService = require('../services/genreService');
 const movieService = require('../services/movieService');
+const breaker=require('express-circuit-breaker');
+//Circuit breaker
+var CB = breaker({
+    catchError: e => 'trip',
+    handleBlockedRequest: (req, res) => res.sendStatus(500)
+  })
 
-router.get('/',(req,res)=>{
+//Get Request to Fetch movie data
+router.get('/',CB,(req,res)=>{
     let genreId=[];
     let movies=[];
     let genreList=[];
