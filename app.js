@@ -1,5 +1,6 @@
 const express =require('express')
 const request=require('request')
+const breaker=require('express-circuit-breaker')
 const MOVIE_API="https://api.themoviedb.org/3/movie/now_playing?api_key=b7a195f9d259535f183aa711ffb7b91c&language=en-US&page=1";
 const GENREAPI="https://api.themoviedb.org/3/genre/movie/list?api_key=b7a195f9d259535f183aa711ffb7b91c&language&language=en-US";
 const app=express()
@@ -22,9 +23,13 @@ let options2={
     secureProtocol:'TLSv1_method'
 
 }
-
+//Circuit breaker
+var CB = breaker({
+  catchError: e => 'trip',
+  handleBlockedRequest: (req, res) => res.sendStatus(500)
+})
 //Asynchronous Get Request to Fetch movie data
-app.get('/', async (req,res)=>{       
+app.get('/',CB, async (req,res)=>{       
         await request.get(options1,(err,response,body)=>{
             if(err)
             console.log(err);
@@ -49,17 +54,17 @@ app.get('/', async (req,res)=>{
         //   res.send(rating.sort())
         // }
 
-       const getMovieWithGenre=(movielist)=>{
+       const getMovieWithGenre=(movieapi)=>{
              request.get(options2,(err,response,body)=>{
                 if(err)
                 console.log(err);
                 else{
                   let genreId=[];
-                  let movies={};
+                  let movies=[];
+                  let filteredMovies=[];
                   let genreList= 0||JSON.parse(body).genres; 
                   let genres=req.headers['genre'].split(',');   
-                    console.log(genres);
-                    res.json({message:"Fetched Data"})
+                //    console.log(genres);
                   if(genres.length!==0){
                   genreList.forEach(element => {
                       if(genres.includes(element.name))
@@ -67,9 +72,21 @@ app.get('/', async (req,res)=>{
                           genreId.push(element.id);
                       }
                   });
-                  movielist.forEach(movie=>{
+                 movieapi.results.filter(movie=>{
+                  movies.push(movie)
+                 })
+                 movies.filter(movie => 
+                    {
+                      genreId.forEach(id => {
+                        if(movie.genre_ids.includes(id)){
+                          filteredMovies.push(movie)
+                        }
+                      })
+                    }
+                  )
+                  console.log(`Total Movies Filtered from ${movieapi.results.length} to ${filteredMovies.length}` )
+                  res.send(filteredMovies);
 
-                  })
                 }
                 else{
                   res.json({message:"No genre selected"});
