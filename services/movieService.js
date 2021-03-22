@@ -1,29 +1,19 @@
-let options1={
-    url:MOVIE_API,
-    strictSSL:false,
-     rejectUnauthorized: false,//add when working with https sites
-     requestCert: false,//add when working with https sites
-     agent: false,
-    secureProtocol:'TLSv1_method'
-}
-
-//Circuit breaker
-var CB = breaker({
-  catchError: e => 'trip',
-  handleBlockedRequest: (req, res) => res.sendStatus(500)
-})
-//Asynchronous Get Request to Fetch movie data
-app.get('/',CB, async (req,res)=>{       
-        await request.get(options1,(err,response,body)=>{
-            if(err)
-            console.log(err);
-            else{
-              let popularityRating=req.headers['popularity'];
-              let content= null ||JSON.parse(body);
-            }
-        })      
-      
-}
-)
-
-
+const api = require('../constants')
+const axios= require('axios')
+const https=require('https')
+const agent = new https.Agent({
+  rejectUnauthorized: false,//add when working with https sites
+});
+    const getMovieApi = async () => {
+      try {
+          const resp = await axios.get(api.MOVIE_API,{ httpsAgent: agent })
+            .then(function (response) {
+              return response.data;
+            });
+          return resp;
+    } catch (err) {
+          console.error(err);
+      }
+    };
+    
+    module.exports = getMovieApi();

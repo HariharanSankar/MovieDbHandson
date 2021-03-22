@@ -1,12 +1,10 @@
-const express =require('express')
-const request=require('request')
-const breaker=require('express-circuit-breaker')
-const MOVIE_API="https://api.themoviedb.org/3/movie/now_playing?api_key=b7a195f9d259535f183aa711ffb7b91c&language=en-US&page=1";
+const express =require('express');
+const popularityRouter = require('./router/popularityRouter');
+const genreRouter=require('./router/genreRouter')
 const app=express();
 
-
-app.use('/genre',require('./router/genre'))
-app.use('/popularity',require('./router/popularity'))
+app.use('/popularity',popularityRouter);
+app.use('/genre',genreRouter);
 
 const PORT= process.env.PORT||3000;
 
