@@ -3,7 +3,10 @@ const popularityRouter = require('./router/popularityRouter');
 const genreRouter=require('./router/genreRouter')
 const app=express();
 const swaggerUI = require('swagger-ui-express')
-    
+const swaggerDocument = require ('./swagger/swagger.json')
+// removed for brevity
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
 
 //Routers
 app.use('/popularity',popularityRouter);

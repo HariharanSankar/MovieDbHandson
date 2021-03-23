@@ -1,0 +1,92 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Movie API",
+      "description": "This is a sample MOVIE API response created with Express.js.",
+      "contact": {
+        "email": "hari@xyz.com"
+      },
+      "version": "2.0.0"
+    },
+    "tags": [
+      {
+        "name": "Movie API Handson",
+        "description": "Fetching from API"
+      }
+    ],
+    "paths": {
+      "/popularity": {
+        "get": {
+          "tags": [
+            "Popularity Rating Based Display"
+          ],
+          "summary": "Get list of movies above the Rating",
+          "operationId": "Movies with Popularity Rating ",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/popularity/",
+                    "type": "json"
+                  }
+                }
+              }
+            }
+          }
+          }
+        },
+        "/genre": {
+            "get": {
+              "tags": [
+                "Genre Rating Based Display"
+              ],
+              "summary": "Get list of movies with specific genre",
+              "operationId": "Movies with Specifies Genre",
+              "responses": {
+                "200": {
+                  "description": "Successful operation",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/genre",
+                        "type": "json"
+                      }
+                    }
+                  }
+                }
+              }
+              }
+            }
+        },
+          
+
+    "components": {
+      "schemas": {
+        "Error": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string"
+            }
+          }
+        },
+        "ApiResponse": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "type": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
