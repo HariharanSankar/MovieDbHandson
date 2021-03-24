@@ -13,9 +13,9 @@ var CB = breaker({
 
 //Get Request to Fetch movie data
 router.get('/',CB,(req,res)=>{
-  let popularity = req.headers.popularity;
   movieService.then(data=>{
-    const rating=data.results.filter(results=>results.popularity>popularityRating)
+    let popularity = req.headers.popularity;
+    const rating=data.results.filter(results=>results.popularity>popularity);
     res.send(rating.sort());
   }).catch(err => res.sendStatus(500))
 })
