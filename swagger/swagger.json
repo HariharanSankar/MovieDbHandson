@@ -17,6 +17,11 @@
     "paths": {
       "/popularity": {
         "get": {
+          "parameters": [{
+            "name": "popularity",
+            "in": "header",
+            "required": "true"
+        }],
           "tags": [
             "Popularity Rating Based Display"
           ],
@@ -39,6 +44,11 @@
         },
         "/genre": {
             "get": {
+              "parameters": [{
+                "name": "genres",
+                "in": "header",
+                "required": "true"
+            }],
               "tags": [
                 "Genre Rating Based Display"
               ],
