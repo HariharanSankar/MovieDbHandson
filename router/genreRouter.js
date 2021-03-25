@@ -15,7 +15,7 @@ router.get('/',CB,(req,res)=>{
     let movies=[];
     let genreList=[];
     let filteredMovies=[];
-    let genres=req.headers['genre'].split(',');  
+    let genres=req.headers.genres;
      genreService.then(data=>
         {
             data.genres.forEach(element=>{

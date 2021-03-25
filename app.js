@@ -3,7 +3,10 @@ const popularityRouter = require('./router/popularityRouter');
 const genreRouter=require('./router/genreRouter')
 const app=express();
 const swaggerUI = require('swagger-ui-express')
-    
+const swaggerDocument = require ('./swagger/swagger.json')
+// removed for brevity
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
 
 //Routers
 app.use('/popularity',popularityRouter);
@@ -14,40 +17,6 @@ const PORT= process.env.PORT||3000;
 app.listen(PORT,console.log(`Server is running at port ${PORT}`));
 
 
-
-
-//Swagger Validation
-// const swaggerOptions ={​​​​​​​
-//     openapi:"3.0.1",
-//     info: {​​​​​​​​
-//         version:"1.0.0",
-//         title:"APIs Document",
-//         description:"your description here",
-//         termsOfService:"",
-//         contact: {​​​​​​​​
-//                 name:"abc",
-//                  email:"abc@xyz.com",      
-//           }​​ ​    ​​​
-//       }     
-// }​​​​; 
-// ​​app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerOptions));
-  
-
-
-//const swaggerJsDoc = require('swagger-jsdoc');
-// const swaggerUI = require('swagger-ui-express');
-// const swaggerOptions = {
-//     swaggerDefinition: {
-//       info: {
-//         title: "movie API",
-//         version :  '1.0.0',
-//       },
-//     },
-//     apis: ["app.js"],
-//   };
-  
-//   const swaggerDocs = swaggerJsDoc(swaggerOptions);
-//   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 
 
