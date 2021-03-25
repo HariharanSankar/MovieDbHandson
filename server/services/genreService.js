@@ -1,13 +1,15 @@
-const api = require('../constants')
-const axios= require('axios')
-const https=require('https')
+import api from '../constants'
+import axios from 'axios'
+import https from 'https'
+
+
 const agent = new https.Agent({
   rejectUnauthorized: false,//add when working with https sites
 });
 
-const getMovieApi = async () => {
+const getMovieApi = () => {
   try {
-      const resp = await axios.get(api.GENRE_API,{ httpsAgent: agent })
+      const resp =  axios.get(api.GENRE_API,{ httpsAgent: agent })
         .then(function (response) {
           return response.data;
         });
@@ -17,7 +19,7 @@ const getMovieApi = async () => {
   }
 };
 
-module.exports = getMovieApi();
+export default getMovieApi();
 
 
        
