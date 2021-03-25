@@ -1,5 +1,6 @@
 const CircuitBreaker = require('./CircuitBreaker.js')
 
+const breaker = new CircuitBreaker(unstableRequest)
 // Our unstable request simulation
 const unstableRequest = () => {
   return new Promise((resolve, reject) => {
@@ -10,7 +11,7 @@ const unstableRequest = () => {
       }
   })
 }
-const breaker = new CircuitBreaker(unstableRequest)
+
 setInterval(() => {
     breaker
       .then(console.log)
