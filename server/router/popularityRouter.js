@@ -1,8 +1,8 @@
-const express=require('express')
-const router=express.Router();
-const breaker=require('express-circuit-breaker');
-const movieService = require('../services/movieService');
+import express from 'express'
+import breaker from 'express-circuit-breaker'
+import movieService  from '../services/movieService'
 
+const router=express.Router();
 
 
 //Circuit breaker
@@ -21,4 +21,4 @@ router.get('/',CB,(req,res)=>{
 })
 
 
-module.exports = router;
+export default router;

@@ -1,8 +1,8 @@
-const express=require('express');
+import express from 'express'
+import genreService from '../services/genreService'
+import movieService from '../services/movieService'
+import breaker from 'express-circuit-breaker'
 const router=express.Router();
-const genreService = require('../services/genreService');
-const movieService = require('../services/movieService');
-const breaker=require('express-circuit-breaker');
 //Circuit breaker
 var CB = breaker({
     catchError: e => 'trip',
@@ -47,4 +47,4 @@ router.get('/',CB,(req,res)=>{
 
 
         
-module.exports=router;
+export default router;

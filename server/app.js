@@ -1,10 +1,10 @@
-const express =require('express');
-const popularityRouter = require('./router/popularityRouter');
-const genreRouter=require('./router/genreRouter')
+import express from 'express'
+import popularityRouter from'./router/popularityRouter'
+import genreRouter from './router/genreRouter'
 const app=express();
-const swaggerUI = require('swagger-ui-express')
-const swaggerDocument = require ('./swagger/swagger.json')
-// removed for brevity
+import swaggerUI from 'swagger-ui-express'
+import swaggerDocument from '../swagger/swagger.json'
+
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 
