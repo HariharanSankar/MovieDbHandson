@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run prod",
     "build": "npm-run-all clean transpile",
-    "server": "node ./dist-server/app.js",
+    "server": "nodemon ./dist-server/app.js",
     "dev": "npm-run-all build server",
     "prod": "npm-run-all build server",
     "transpile": "babel ./server --out-dir dist-server",
