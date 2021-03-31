@@ -60,3 +60,5 @@ class CircuitBreaker {
       })
     }
   }
+
+export default CircuitBreaker;
