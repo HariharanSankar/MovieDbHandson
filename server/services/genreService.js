@@ -7,9 +7,9 @@ const agent = new https.Agent({
   rejectUnauthorized: false,//add when working with https sites
 });
 
-  const getMovieApi = async () => {
+  const getMovieApi = () => {
   try {
-       const resp =  await axios.get(api.GENRE_API,{ httpsAgent: agent })
+       const resp =  axios.get(api.GENRE_API,{ httpsAgent: agent })
         .then(function (response) {
           return response.data;
         });

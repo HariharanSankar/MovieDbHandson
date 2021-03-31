@@ -7,25 +7,17 @@ exports["default"] = void 0;
 
 var _express = _interopRequireDefault(require("express"));
 
-var _expressCircuitBreaker = _interopRequireDefault(require("express-circuit-breaker"));
+var _Circuitbreaker = _interopRequireDefault(require("../../circuitbreaker/Circuitbreaker"));
 
 var _movieService = _interopRequireDefault(require("../services/movieService"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var router = _express["default"].Router(); //Circuit breaker
+//Get Request to Fetch movie data
 
 
-var CB = (0, _expressCircuitBreaker["default"])({
-  catchError: function catchError(e) {
-    return 'trip';
-  },
-  handleBlockedRequest: function handleBlockedRequest(req, res) {
-    return res.sendStatus(500);
-  }
-}); //Get Request to Fetch movie data
-
-router.get('/', CB, function (req, res) {
+router.get('/', function (req, res) {
   _movieService["default"].then(function (data) {
     var popularity = req.headers.popularity;
     var rating = data.results.filter(function (results) {

@@ -10,10 +10,9 @@ var CB = breaker({
   catchError: e => 'trip',
   handleBlockedRequest: (req, res) => res.sendStatus(500)
 })
-
 //Get Request to Fetch movie data
 router.get('/',CB,(req,res)=>{
-  movieService.then(data=>{
+movieService.then(data=>{
     let popularity = req.headers.popularity;
     const rating=data.results.filter(results=>results.popularity>popularity);
     res.send(rating.sort());
