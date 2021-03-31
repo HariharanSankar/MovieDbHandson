@@ -10,7 +10,7 @@ const agent = new https.Agent({
   const getMovieApi = () => {
   try {
        const resp =  axios.get(api.GENRE_API,{ httpsAgent: agent })
-        .then(function (response) {
+        .then( (response) => {
           return response.data;
         });
       return resp;

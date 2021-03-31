@@ -1,24 +1,21 @@
 import express from 'express'
 import genreService   from '../services/genreService'
 import movieService   from '../services/movieService'
-import breaker from 'express-circuit-breaker'
+import CircuitBreaker from '../circuitbreaker/Circuitbreaker'
+
 
 const router=express.Router();
 
 //Circuit breaker
-var CB = breaker({
-    catchError: e => 'trip',
-    handleBlockedRequest: (req, res) => res.sendStatus(500)
-  })
-
+let breaker = new CircuitBreaker();
 //Get Request to Fetch movie data
-router.get('/',CB,(req,res)=>{
+router.get('/',(req,res)=>{
     let genreId=[];
     let movies=[];
     let genreList=[];
     let filteredMovies=[];
     let genres=req.headers.genres;
-     genreService.then(data=>
+    breaker.fire(genreService).then(data=>
         {
             data.genres.forEach(element=>{
                 if(genres.includes(element.name))
@@ -26,7 +23,7 @@ router.get('/',CB,(req,res)=>{
                             genreId.push(element.id);
                         }
             })
-            movieService.then(ms=>                
+            breaker.fire(movieService).then(ms=>                
                 {
                     ms.results.filter(movie=>{
                     movies.push(movie);                 
@@ -48,5 +45,4 @@ router.get('/',CB,(req,res)=>{
 })
 
 
-        
 export default router;

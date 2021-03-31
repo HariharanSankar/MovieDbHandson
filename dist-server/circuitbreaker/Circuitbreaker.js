@@ -27,7 +27,7 @@ var CircuitBreaker = /*#__PURE__*/function () {
 
   _createClass(CircuitBreaker, [{
     key: "fire",
-    value: function fire() {
+    value: function fire(response) {
       if (this.state === "OPEN") {
         if (this.nextAttempt <= Date.now()) {
           this.state = "HALF";
@@ -37,8 +37,9 @@ var CircuitBreaker = /*#__PURE__*/function () {
       }
 
       try {
-        var response = this.request();
-        return this.success(response);
+        var _response = this.request();
+
+        return this.success(_response);
       } catch (err) {
         return this.fail(err);
       }

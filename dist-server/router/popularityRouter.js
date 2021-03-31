@@ -24,7 +24,7 @@ var router = _express["default"].Router(); //Circuit breaker
 
 var breaker = new _Circuitbreaker["default"]();
 router.get('/', function (req, res) {
-  breaker.fire(_movieService["default"].then).then(function (data) {
+  breaker.fire(_movieService["default"]).then(function (data) {
     var popularity = req.headers.popularity;
     var rating = data.results.filter(function (results) {
       return results.popularity > popularity;
