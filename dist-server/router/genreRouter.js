@@ -31,7 +31,17 @@ router.get('/', function (req, res) {
   var movies = [];
   var genreList = [];
   var filteredMovies = [];
-  var genresHeader = req.headers.genres;
+  var genresHeader = req.headers.genres; //              Promise.all(
+  //             [axios.get(api1, {
+  //                 httpsAgent: agent
+  //             }), axios.get(api2, {
+  //                 httpsAgent: agent
+  //             })]).then(function (responses) {
+  //             return Promise.all(responses.map(function (response) {
+  //                 return response.data;
+  //             }));
+  //         }).then(function (data) {data[0] data[1]}
+
   breaker.fire().then(function (response) {
     var genres = response.data;
     genres.forEach(function (element) {

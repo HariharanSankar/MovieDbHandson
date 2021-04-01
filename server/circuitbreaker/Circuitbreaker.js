@@ -1,14 +1,3 @@
-import axios from 'axios'
-import { response } from 'express';
-
-import https from 'https'
-
-
-const agent = new https.Agent({
-  rejectUnauthorized: false,//add when working with https sites
-});
-    
-
 class CircuitBreaker {
     constructor(request) {
       this.request = request
@@ -31,8 +20,7 @@ class CircuitBreaker {
       }
       try {
         const response =  this.request
-          console.log(response)
-          return this.success(response.data)
+        return this.success(response)
       } catch (err) {
         return this.fail(err)
       }

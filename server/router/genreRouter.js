@@ -15,6 +15,17 @@ router.get('/',(req,res)=>{
     let genreList=[];
     let filteredMovies=[];
     let genresHeader=req.headers.genres;
+        //              Promise.all(
+        //             [axios.get(api1, {
+        //                 httpsAgent: agent
+        //             }), axios.get(api2, {
+        //                 httpsAgent: agent
+        //             })]).then(function (responses) {
+        //             return Promise.all(responses.map(function (response) {
+        //                 return response.data;
+        //             }));
+        //         }).then(function (data) {data[0] data[1]}
+ 
     
     breaker.fire().then(response=>
         {
