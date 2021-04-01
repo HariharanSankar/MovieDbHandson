@@ -6,7 +6,7 @@ import swaggerDocument from '../swagger/swagger.json'
 
 const app=express();
 
-// removed for brevity
+// Swagger docs
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 

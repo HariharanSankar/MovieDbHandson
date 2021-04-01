@@ -12,7 +12,7 @@ var _swagger = _interopRequireDefault(require("../swagger/swagger.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var app = (0, _express["default"])(); // removed for brevity
+var app = (0, _express["default"])(); // Swagger docs
 
 app.use("/api-docs", _swaggerUiExpress["default"].serve, _swaggerUiExpress["default"].setup(_swagger["default"])); //Routers
 

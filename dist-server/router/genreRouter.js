@@ -39,9 +39,9 @@ var router = _express["default"].Router(); //Get Request to Fetch movie data
 router.get('/', function (req, res) {
   try {
     new _Circuitbreaker["default"](Promise.all([_movieService["default"], _genreService["default"]])).fire().then(function (responses) {
-      return Promise.all(responses.map(function (response) {
+      return responses.map(function (response) {
         return response.data;
-      }));
+      });
     }).then(function (data) {
       var genreId = [];
       var filteredMovies = [];

@@ -12,9 +12,9 @@ router.get('/', (req, res) => {
         try{
         new CircuitBreaker(Promise.all([movieService, genreService])).fire()
         .then((responses)=> {
-            return Promise.all(responses.map((response)=> {
+            return responses.map((response)=> {
                 return response.data;
-            }));
+            });
         })
         .then((data) =>{
             let genreId = [];
