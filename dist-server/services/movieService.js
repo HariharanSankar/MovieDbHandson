@@ -31,6 +31,5 @@ var getMovieApi = function getMovieApi() {
   }
 };
 
-var _default = getMovieApi();
-
+var _default = getMovieApi;
 exports["default"] = _default;

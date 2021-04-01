@@ -31,7 +31,8 @@ class CircuitBreaker {
       }
       try {
         const response =  this.request
-          return this.success(response)
+          console.log(response)
+          return this.success(response.data)
       } catch (err) {
         return this.fail(err)
       }

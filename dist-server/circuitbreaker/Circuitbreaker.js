@@ -51,7 +51,8 @@ var CircuitBreaker = /*#__PURE__*/function () {
 
       try {
         var _response = this.request;
-        return this.success(_response);
+        console.log(_response);
+        return this.success(_response.data);
       } catch (err) {
         return this.fail(err);
       }

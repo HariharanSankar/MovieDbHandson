@@ -15,6 +15,7 @@ router.get('/',(req,res)=>{
     let genreList=[];
     let filteredMovies=[];
     let genresHeader=req.headers.genres;
+    
     breaker.fire().then(response=>
         {
             let genres=response.data;           
