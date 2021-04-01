@@ -22,8 +22,6 @@ var getMovieApi = function getMovieApi() {
   try {
     var resp = _axios["default"].get(_constants["default"].GENRE_API, {
       httpsAgent: agent
-    }).then(function (response) {
-      return response.data;
     });
 
     return resp;

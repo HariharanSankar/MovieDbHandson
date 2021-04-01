@@ -9,10 +9,7 @@ const agent = new https.Agent({
     const getMovieApi = () => {
       try {
         //let popularity = req.headers.popularity
-        const resp =  axios.get(api.MOVIE_API,{ httpsAgent: agent })
-            .then(function (response) {
-              return response.data;
-            });
+        const resp =  axios.get(api.MOVIE_API,{ httpsAgent: agent });
           return resp;
     } catch (err) {
           console.error(err);
