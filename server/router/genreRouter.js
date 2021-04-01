@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { response } from 'express'
 import genreService   from '../services/genreService'
 import movieService   from '../services/movieService'
 import CircuitBreaker from '../circuitbreaker/Circuitbreaker'
@@ -7,25 +7,27 @@ import CircuitBreaker from '../circuitbreaker/Circuitbreaker'
 const router=express.Router();
 
 //Circuit breaker
-let breaker = new CircuitBreaker();
+let breaker = new CircuitBreaker(genreService);
 //Get Request to Fetch movie data
 router.get('/',(req,res)=>{
     let genreId=[];
     let movies=[];
     let genreList=[];
     let filteredMovies=[];
-    let genres=req.headers.genres;
-    breaker.fire(genreService).then(data=>
+    let genresHeader=req.headers.genres;
+    breaker.fire().then(response=>
         {
-            data.genres.forEach(element=>{
-                if(genres.includes(element.name))
+            let genres=response.data;           
+          genres.forEach(element=>{
+                if(genresHeader.includes(element.name))
                         {
                             genreId.push(element.id);
+                            console.log(element.id)
                         }
             })
-            breaker.fire(movieService).then(ms=>                
+            movieService.then(ms=>                
                 {
-                    ms.results.filter(movie=>{
+                    ms.data.results.filter(movie=>{
                     movies.push(movie);                 
                      })
                 movies.filter(movie => 

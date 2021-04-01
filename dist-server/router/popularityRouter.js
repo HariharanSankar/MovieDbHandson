@@ -14,20 +14,15 @@ var _Circuitbreaker = _interopRequireDefault(require("../circuitbreaker/Circuitb
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 //import breaker from 'express-circuit-breaker'
-var router = _express["default"].Router(); //Circuit breaker
-// var CB = breaker({
-//   catchError: e => 'trip',
-//   handleBlockedRequest: (req, res) => res.sendStatus(500)
-// })
-//Get Request to Fetch movie data
+var router = _express["default"].Router();
 
-
-var breaker = new _Circuitbreaker["default"]();
+var breaker = new _Circuitbreaker["default"](_movieService["default"]);
 router.get('/', function (req, res) {
-  breaker.fire(_movieService["default"]).then(function (data) {
+  breaker.fire().then(function (response) {
+    var movies = response.data;
     var popularity = req.headers.popularity;
-    var rating = data.results.filter(function (results) {
-      return results.popularity > popularity;
+    var rating = movies.results.filter(function (movie) {
+      return movie.popularity > popularity;
     });
     res.send(rating.sort());
   })["catch"](function (err) {

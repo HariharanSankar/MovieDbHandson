@@ -5,11 +5,24 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _axios = _interopRequireDefault(require("axios"));
+
+var _express = require("express");
+
+var _https = _interopRequireDefault(require("https"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var agent = new _https["default"].Agent({
+  rejectUnauthorized: false //add when working with https sites
+
+});
 
 var CircuitBreaker = /*#__PURE__*/function () {
   function CircuitBreaker(request) {
@@ -27,7 +40,7 @@ var CircuitBreaker = /*#__PURE__*/function () {
 
   _createClass(CircuitBreaker, [{
     key: "fire",
-    value: function fire(response) {
+    value: function fire() {
       if (this.state === "OPEN") {
         if (this.nextAttempt <= Date.now()) {
           this.state = "HALF";
@@ -37,8 +50,7 @@ var CircuitBreaker = /*#__PURE__*/function () {
       }
 
       try {
-        var _response = this.request();
-
+        var _response = this.request;
         return this.success(_response);
       } catch (err) {
         return this.fail(err);

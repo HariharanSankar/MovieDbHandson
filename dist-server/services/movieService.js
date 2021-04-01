@@ -23,8 +23,6 @@ var getMovieApi = function getMovieApi() {
     //let popularity = req.headers.popularity
     var resp = _axios["default"].get(_constants["default"].MOVIE_API, {
       httpsAgent: agent
-    }).then(function (response) {
-      return response.data;
     });
 
     return resp;
