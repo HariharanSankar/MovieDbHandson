@@ -10,7 +10,7 @@ class CircuitBreaker {
       this.nextAttempt = Date.now()
     }
   
-     fire(response) {
+     fire(resonse) {
       if (this.state === "OPEN") {
         if (this.nextAttempt <= Date.now()) {
           this.state = "HALF"
@@ -19,7 +19,7 @@ class CircuitBreaker {
         }
       }
       try {
-        const response =  this.request()
+        const response =  this.request
         return this.success(response)
       } catch (err) {
         return this.fail(err)
