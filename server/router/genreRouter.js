@@ -8,8 +8,9 @@ const router = express.Router();
 
 
 //Get Request to Fetch movie data
-router.get('/', (req, res) => {
-    Promise.all([movieService, genreService])
+router.get('/', (req, res) => {    
+        try{
+        new CircuitBreaker(Promise.all([movieService, genreService])).fire()
         .then((responses)=> {
             return Promise.all(responses.map((response)=> {
                 return response.data;
@@ -39,7 +40,11 @@ router.get('/', (req, res) => {
             )
             console.log(`Movies filtered from ${movies.length} to ${filteredMovies.length}`);
             res.send(filteredMovies);
-        })
+        }).catch(err=>res.sendStatus(500).res.send(err));
+    }
+    catch(err){
+        res.sendStatus(500).res.send(err);
+    }
 
 
 })

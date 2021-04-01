@@ -37,38 +37,44 @@ var router = _express["default"].Router(); //Get Request to Fetch movie data
 
 
 router.get('/', function (req, res) {
-  Promise.all([_movieService["default"], _genreService["default"]]).then(function (responses) {
-    return Promise.all(responses.map(function (response) {
-      return response.data;
-    }));
-  }).then(function (data) {
-    var genreId = [];
-    var filteredMovies = [];
-    var genresHeader = req.headers['genre'].split(',');
+  try {
+    new _Circuitbreaker["default"](Promise.all([_movieService["default"], _genreService["default"]])).fire().then(function (responses) {
+      return Promise.all(responses.map(function (response) {
+        return response.data;
+      }));
+    }).then(function (data) {
+      var genreId = [];
+      var filteredMovies = [];
+      var genresHeader = req.headers['genre'].split(',');
 
-    var _ref = _toConsumableArray(data),
-        movieapi = _ref[0],
-        genreapi = _ref[1];
+      var _ref = _toConsumableArray(data),
+          movieapi = _ref[0],
+          genreapi = _ref[1];
 
-    var movies = movieapi.results;
-    var genres = genreapi.genres;
-    genres.forEach(function (element) {
-      if (genresHeader.includes(element.name)) {
-        genreId.push(element.id);
-      }
-    });
-    console.log(genreId); //filtering genre ids from whole movie list by filter method
-
-    movies.filter(function (movie) {
-      genreId.forEach(function (id) {
-        if (movie.genre_ids.includes(id)) {
-          filteredMovies.push(movie);
+      var movies = movieapi.results;
+      var genres = genreapi.genres;
+      genres.forEach(function (element) {
+        if (genresHeader.includes(element.name)) {
+          genreId.push(element.id);
         }
       });
+      console.log(genreId); //filtering genre ids from whole movie list by filter method
+
+      movies.filter(function (movie) {
+        genreId.forEach(function (id) {
+          if (movie.genre_ids.includes(id)) {
+            filteredMovies.push(movie);
+          }
+        });
+      });
+      console.log("Movies filtered from ".concat(movies.length, " to ").concat(filteredMovies.length));
+      res.send(filteredMovies);
+    })["catch"](function (err) {
+      return res.sendStatus(500).res.send(err);
     });
-    console.log("Movies filtered from ".concat(movies.length, " to ").concat(filteredMovies.length));
-    res.send(filteredMovies);
-  });
+  } catch (err) {
+    res.sendStatus(500).res.send(err);
+  }
 });
 var _default = router;
 exports["default"] = _default;
