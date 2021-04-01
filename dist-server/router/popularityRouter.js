@@ -13,21 +13,23 @@ var _Circuitbreaker = _interopRequireDefault(require("../circuitbreaker/Circuitb
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-//import breaker from 'express-circuit-breaker'
 var router = _express["default"].Router();
 
-var breaker = new _Circuitbreaker["default"](_movieService["default"]);
 router.get('/', function (req, res) {
-  breaker.fire().then(function (response) {
-    var movies = response.data;
-    var popularity = req.headers.popularity;
-    var rating = movies.results.filter(function (movie) {
-      return movie.popularity > popularity;
+  try {
+    new _Circuitbreaker["default"](_movieService["default"]).fire().then(function (response) {
+      var movies = response.data;
+      var popularity = req.headers.popularity;
+      var rating = movies.results.filter(function (movie) {
+        return movie.popularity > popularity;
+      });
+      res.send(rating.sort());
+    })["catch"](function (err) {
+      return res.sendStatus(500);
     });
-    res.send(rating.sort());
-  })["catch"](function (err) {
-    return res.sendStatus(500);
-  });
+  } catch (err) {
+    res.sendStatus(500).res.send(err);
+  }
 });
 var _default = router;
 exports["default"] = _default;
